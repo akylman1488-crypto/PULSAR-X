@@ -18,7 +18,7 @@ st.markdown("""
         background-color: white !important;
     }
     [data-testid="stSidebar"] * {
-        color: black !important;
+        color: white !important;
     }
 
     [data-testid="stFileUploader"] section {
