@@ -17,46 +17,41 @@ st.markdown("""
     [data-testid="stSidebar"] {
         background-color: white !important;
     }
-    /* Делаем зону загрузки файлов БЕЛОЙ */
-    [data-testid="stFileUploader"] section {
-        background-color: white !important;
+    [data-testid="stSidebar"] * {
         color: black !important;
-        border: 2px dashed #ccc !important;
     }
 
-    [data-testid="stChatInput"] {
+    div.stButton > button {
         background-color: white !important;
+        color: black !important;
         border: 2px solid black !important;
-        border-radius: 10px !important;
+        font-weight: bold !important;
     }
 
-    [data-testid="stChatInput"] textarea {
-        color: black !important;
-        -webkit-text-fill-color: black !important;
-    }
-
-    .stApp h1 {
+    .stChatMessage p, .stMarkdown p {
         color: white !important;
-        -webkit-text-fill-color: white !important;
-        text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000 !important;
-    }
-
-    .stChatMessage p {
-        color: white !important;
-        text-shadow: 1px 1px 2px black !important;
+        text-shadow: 1px 1px 1px #000, -1px -1px 1px #000 !important;
     }
 
     header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
         background: transparent !important;
+        background-color: rgba(0,0,0,0) !important;
+    }
+    [data-testid="stChatInput"] {
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        border: 1px solid white !important;
     }
     </style>
 
     <script>
-    function fixDesign() {
-        var h1 = window.parent.document.querySelectorAll('h1');
-        h1.forEach(el => { 
-            el.style.color = 'white'; 
-            el.style.webkitTextFillColor = 'white';
+    function stylePulsar() {
+        // 1. Находим и красим заголовок PULSAR (Зеленая зона)
+        var headers = window.parent.document.querySelectorAll('h1');
+        headers.forEach(function(h) {
+            h.style.color = 'white';
+            h.style.webkitTextFillColor = 'white';
+            h.style.textShadow = '2px 2px 4px #000, -1px -1px 0 #000';
+            h.style.fontWeight = '900';
         });
 
         var menuBtn = window.parent.document.querySelector('button[data-testid="stHeaderSidebarNav"]');
@@ -64,9 +59,18 @@ st.markdown("""
             menuBtn.style.backgroundColor = 'white';
             menuBtn.style.borderRadius = '50%';
             menuBtn.style.border = '2px solid black';
+            menuBtn.style.padding = '5px';
+            
+            var svgIcon = menuBtn.querySelector('svg');
+            if (svgIcon) {
+                svgIcon.style.fill = 'black';
+                svgIcon.style.color = 'black';
+            }
         }
     }
-    setInterval(fixDesign, 1000); 
+
+    setTimeout(stylePulsar, 500);
+    setTimeout(stylePulsar, 2000);
     </script>
     """, unsafe_allow_html=True)
 
