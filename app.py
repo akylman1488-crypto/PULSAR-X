@@ -9,8 +9,11 @@ MEMORY_FILE = "pulsar_experience.txt"
 
 def get_experience():
     if os.path.exists(MEMORY_FILE):
-        with open(MEMORY_FILE, "r", encoding="utf-8") as f:
-            return f.read()
+        try:
+            with open(MEMORY_FILE, "r", encoding="utf-8") as f:
+                return f.read()
+        except:
+            return ""
     return ""
 
 def save_experience(new_lesson):
@@ -30,7 +33,7 @@ def read_pdf(file):
 try:
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 except:
-    st.error("Добавьте GROQ_API_KEY в Secrets приложения!")
+    st.error("Критическая ошибка: Добавьте GROQ_API_KEY в Secrets приложения Streamlit!")
     st.stop()
 
 if "messages" not in st.session_state:
@@ -47,6 +50,7 @@ with st.sidebar:
         st.title("🛰️ PULSAR-X")
     
     st.divider()
+
     st.subheader("📁 Загрузка знаний")
     uploaded_file = st.file_uploader("Загрузи PDF или TXT", type=["pdf", "txt"])
     
@@ -55,24 +59,27 @@ with st.sidebar:
             st.session_state.doc_context = read_pdf(uploaded_file)
         else:
             st.session_state.doc_context = uploaded_file.read().decode("utf-8")
-        st.success("Файл изучен!")
+        st.success("Файл изучен системой!")
 
     if st.button("🗑️ Забыть файл"):
         st.session_state.doc_context = ""
         st.rerun()
 
     st.divider()
-    with st.expander("🧠 Мой накопленный опыт"):
-        st.write(get_experience() if get_experience() else "Опыта пока нет.")
 
-col1, col2 = st.columns([4, 1])
-with col1:
+    with st.expander("🧠 База опыта (Адаптивность)"):
+        current_exp = get_experience()
+        st.write(current_exp if current_exp else "Опыта пока нет. Начните обучение!")
+
+head_col1, head_col2 = st.columns([4, 1])
+with head_col1:
     st.title("🛰️ PULSAR-X GLOBAL")
-with col2:
-    if st.button("➕ Новый"):
+with head_col2:
+    if st.button("➕ Новый", use_container_width=True):
         if st.session_state.messages:
             st.session_state.chat_history.append(st.session_state.messages)
         st.session_state.messages = []
+        st.session_state.doc_context = "" 
         st.rerun()
 
 st.divider()
@@ -81,45 +88,46 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("Спросите о чем угодно..."):
+if prompt := st.chat_input("Спросите PULSAR-X о чем угодно..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        res_box = st.empty()
-        full_res = ""
+        response_container = st.empty()
+        full_response = ""
 
-        context = f"КОНТЕКСТ ИЗ ФАЙЛА: {st.session_state.doc_context[:1500]}" if st.session_state.doc_context else ""
-        exp = f"ТВОЙ ПРОШЛЫЙ ОПЫТ: {get_experience()[-1000:]}"
+        file_info = f"\n[КОНТЕКСТ ИЗ ВАШЕГО ФАЙЛА: {st.session_state.doc_context[:1500]}]" if st.session_state.doc_context else ""
+        past_lessons = f"\n[ТВОЙ НАКОПЛЕННЫЙ ОПЫТ: {get_experience()[-1000:]}]"
         
-        system_prompt = (
-            f"Ты — PULSAR-X GLOBAL. {exp} {context} "
-            "1. Если в контексте файла есть ответ, используй его. "
-            "2. Если не можешь ответить, пиши: 'Прошу прощение, но я не могу ответить на этот вопрос'. "
-            "3. Про создателя (Исанура) говори только если спросят."
+        system_instruction = (
+            f"Ты — PULSAR-X GLOBAL, интеллектуальная самообучающаяся система. {past_lessons} {file_info} "
+            "ИНСТРУКЦИИ: "
+            "1. Если в контексте файла есть информация для ответа — используй её в приоритете. "
+            "2. Если вопрос выходит за рамки твоих знаний или правил, отвечай строго: 'Прошу прощение, но я не могу ответить на этот вопрос'. "
+            "3. О создателе (Исануре) говори только если спросят напрямую."
         )
-        
-        msgs = [{"role": "system", "content": system_prompt}] + st.session_state.messages
+
+        groq_messages = [{"role": "system", "content": system_instruction}] + st.session_state.messages
 
         try:
             completion = client.chat.completions.create(
                 model="llama-3.3-70b-versatile",
-                messages=msgs,
+                messages=groq_messages,
                 stream=True
             )
             for chunk in completion:
                 if chunk.choices[0].delta.content:
-                    full_res += chunk.choices[0].delta.content
-                    res_box.markdown(full_res + "▌")
-            res_box.markdown(full_res)
+                    full_response += chunk.choices[0].delta.content
+                    response_container.markdown(full_response + "▌")
+            response_container.markdown(full_response)
 
-            if "запомни" in prompt.lower() or "научись" in prompt.lower():
-                save_experience(f"Запрос: {prompt} | Твой успешный ответ: {full_res[:100]}...")
-                st.toast("Я запомнил это!")
+            if any(word in prompt.lower() for word in ["запомни", "научись", "важно"]):
+                save_experience(f"Пользователь: {prompt} | Ты ответил: {full_response[:150]}...")
+                st.toast("Новый опыт сохранен в базу!")
                 
-        except:
-            full_res = "Прошу прощение, но я не могу ответить на этот вопрос."
-            res_box.markdown(full_res)
+        except Exception as e:
+            full_response = "Прошу прощение, но я не могу ответить на этот вопрос."
+            response_container.markdown(full_response)
 
-    st.session_state.messages.append({"role": "assistant", "content": full_res})
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
