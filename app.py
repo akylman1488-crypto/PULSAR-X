@@ -7,49 +7,53 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 
 st.markdown("""
     <style>
-    .stApp {
+    [data-testid="stAppViewContainer"] {
         background-image: url("https://raw.githubusercontent.com/Isanur-code/pulsar-x/main/IMG_1246.jpg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }
 
-    header[data-testid="stHeader"] {
-        background: rgba(0,0,0,0) !important;
+    [data-testid="stHeader"], 
+    [data-testid="stAppViewBlockContainer"],
+    [data-testid="stCanvas"],
+    .main {
+        background: transparent !important;
     }
 
-    footer {display: none;}
-    
+    header {
+        background-color: rgba(0,0,0,0) !important;
+    }
+
     [data-testid="stBottom"] > div {
-        background-color: transparent !important;
+        background: transparent !important;
     }
 
     .stChatInputContainer {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        border-radius: 20px;
-        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.2) !important;
+        border-radius: 15px;
     }
-    
+
     [data-testid="stChatInput"] {
-        background-color: rgba(40, 40, 80, 0.7) !important;
+        background-color: rgba(40, 40, 80, 0.6) !important;
         border: 1px solid #764ba2 !important;
         color: white !important;
     }
 
     [data-testid="stSidebar"] {
-        background-color: rgba(10, 10, 30, 0.8) !important;
-        backdrop-filter: blur(15px);
+        background-color: rgba(15, 15, 35, 0.7) !important;
+        backdrop-filter: blur(10px);
     }
 
-    h1, h2, h3, span, p, .stMarkdown {
-        color: #ffffff !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    h1, h2, h3, p, span, .stMarkdown {
+        color: white !important;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
     }
 
-    .stChatMessage {
+    .stButton>button {
         background-color: rgba(255, 255, 255, 0.1) !important;
-        border-radius: 15px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
     </style>
     """, unsafe_allow_html=True)
