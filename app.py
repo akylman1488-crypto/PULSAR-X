@@ -81,3 +81,15 @@ if prompt := st.chat_input("Спросите о чем угодно..."):
         
         response_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+st.markdown("""
+    <style>
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    .stImage img {
+        animation: rotate 20s linear infinite; /* Логотип будет медленно вращаться */
+    }
+    </style>
+    """, unsafe_allow_html=True)
