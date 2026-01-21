@@ -71,7 +71,7 @@ if prompt := st.chat_input("Спросите о чем угодно..."):
             )
             response = st.write_stream(completion)
         except Exception as e:
-            response = "Прошу прощения, но я не могу ответить на этот вопрос из-за технической ошибки."
+            response = "Прошу прощения, но я не могу ответить на этот вопрос."
             st.error(response)
             
     st.session_state.messages.append({"role": "assistant", "content": response})
