@@ -14,45 +14,56 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    header, [data-testid="stHeader"], [data-testid="stBottom"] > div, .main {
-        background: transparent !important;
-        background-color: rgba(0,0,0,0) !important;
+    [data-testid="stSidebar"] {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
     }
 
-    .stChatMessage {
-        background-color: rgba(255, 255, 255, 0.07) !important;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 15px !important;
-        margin-bottom: 10px;
+    [data-testid="stSidebar"] .stMarkdown, 
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] p {
+        color: #000000 !important;
     }
 
-    .stChatInputContainer {
-        background-color: transparent !important;
+    /* Кнопка "Новый" */
+    .stButton>button {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        color: #000000 !important;
+        border: 1px solid #000000 !important;
+        font-weight: bold !important;
+    }
+
+    [data-testid="stFileUploader"] section {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        color: #000000 !important;
+        border: 1px dashed #000000 !important;
     }
     
+    [data-testid="stFileUploader"] label, 
+    [data-testid="stFileUploader"] small {
+        color: #000000 !important;
+    }
+
+    header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
+        background: transparent !important;
+    }
+
     [data-testid="stChatInput"] {
-        background-color: rgba(20, 20, 40, 0.8) !important;
-        border: 1px solid #9d50bb !important; /* Фиолетовое свечение */
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid #9d50bb !important;
         color: white !important;
     }
 
-    [data-testid="stSidebar"] {
-        background-color: rgba(0, 0, 0, 0.7) !important;
-        backdrop-filter: blur(20px);
-    }
-
-    h1, h2, h3, p, span, .stMarkdown {
+    .main .stMarkdown, .main h1 {
         color: white !important;
-        text-shadow: 0px 0px 10px rgba(157, 80, 187, 0.5); /* Неоновый эффект */
-    }
-
-    [data-testid="stAppViewBlockContainer"] {
-        padding-top: 2rem !important;
-        padding-bottom: 5rem !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     }
     </style>
     """, unsafe_allow_html=True)
+
 MEMORY_FILE = "pulsar_experience.txt"
 
 def get_experience():
