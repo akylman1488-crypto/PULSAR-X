@@ -14,9 +14,10 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    .main h1, .main h1 span, .st-emotion-cache-10trblm, [data-testid="stHeader"] h1 {
-        color: white !important; 
-        -webkit-text-fill-color: white !important; 
+    .stApp h1, .stApp h1 span, .stApp h1 div, [data-testid="stHeader"] h1 {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+        text-fill-color: white !important;
         text-shadow: 
             -2px -2px 0 #000,  
              2px -2px 0 #000,
