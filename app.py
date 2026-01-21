@@ -21,56 +21,61 @@ st.markdown("""
         color: black !important;
     }
 
-    div.stButton > button {
-        background-color: white !important;
+    [data-testid="stFileUploader"] section {
+        background-color: #f8f9fa !important;
         color: black !important;
+        border: 2px dashed #000 !important;
+    }
+    
+    [data-testid="stChatInput"] {
+        background-color: white !important;
         border: 2px solid black !important;
-        font-weight: bold !important;
+        border-radius: 12px !important;
+    }
+    
+    [data-testid="stChatInput"] textarea {
+        color: black !important;
+        -webkit-text-fill-color: black !important;
     }
 
-    .stChatMessage p, .stMarkdown p {
+    .stApp h1 {
         color: white !important;
-        text-shadow: 1px 1px 1px #000, -1px -1px 1px #000 !important;
+        -webkit-text-fill-color: white !important;
+        text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000 !important;
+    }
+
+    .stChatMessage p {
+        color: white !important;
+        text-shadow: 1px 1px 2px black !important;
     }
 
     header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
         background: transparent !important;
         background-color: rgba(0,0,0,0) !important;
     }
-    [data-testid="stChatInput"] {
-        background-color: rgba(0, 0, 0, 0.6) !important;
-        border: 1px solid white !important;
-    }
     </style>
 
     <script>
-    function stylePulsar() {
-        // 1. Находим и красим заголовок PULSAR (Зеленая зона)
-        var headers = window.parent.document.querySelectorAll('h1');
-        headers.forEach(function(h) {
-            h.style.color = 'white';
+    function applyPulsarStyles() {
+        const doc = window.parent.document;
+        const h1s = doc.querySelectorAll('h1');
+        h1s.forEach(h => { 
+            h.style.color = 'white'; 
             h.style.webkitTextFillColor = 'white';
-            h.style.textShadow = '2px 2px 4px #000, -1px -1px 0 #000';
-            h.style.fontWeight = '900';
         });
 
-        var menuBtn = window.parent.document.querySelector('button[data-testid="stHeaderSidebarNav"]');
+        const menuBtn = doc.querySelector('button[data-testid="stHeaderSidebarNav"]');
         if (menuBtn) {
             menuBtn.style.backgroundColor = 'white';
             menuBtn.style.borderRadius = '50%';
             menuBtn.style.border = '2px solid black';
-            menuBtn.style.padding = '5px';
-            
-            var svgIcon = menuBtn.querySelector('svg');
-            if (svgIcon) {
-                svgIcon.style.fill = 'black';
-                svgIcon.style.color = 'black';
-            }
+            menuBtn.style.boxShadow = '0 0 10px white';
+            const svg = menuBtn.querySelector('svg');
+            if (svg) { svg.style.fill = 'black'; }
         }
     }
-
-    setTimeout(stylePulsar, 500);
-    setTimeout(stylePulsar, 2000);
+    setTimeout(applyPulsarStyles, 1000);
+    setTimeout(applyPulsarStyles, 3000);
     </script>
     """, unsafe_allow_html=True)
 
