@@ -8,74 +8,37 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
-        background-image: url("https://blogger.googleusercontent.com/img/a/AVvXsEiB-6BuccqoXpOjS2N7yboF1Nd4o_7B3kqo8i-vHtsTJi1TFKCm58DYBHTx6SDDDp4J5MnivHcITN_xFLyS9zOes3qf8OQVky63oXbPksqN4TycQ_Wn2sj-2AWCEK3gkrqEDeMo0c6FgT7W0d2d355GNx2PewlrdPa4h6nnVtnEZeMcaB0QA_Qa3kGPKfaV=s2160-rw");
+        background-image: url("https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?q=80&w=1200&auto=format&fit=crop");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }
 
-    [data-testid="stSidebar"] {
-        background-color: white !important;
-    }
-    [data-testid="stSidebar"] * {
-        color: black !important;
-    }
-
-    [data-testid="stFileUploader"] section {
-        background-color: #f8f9fa !important;
-        color: white !important;
-        border: 2px dashed #000 !important;
-    }
-    
-    [data-testid="stChatInput"] {
-        background-color: white !important;
-        border: 2px solid black !important;
-        border-radius: 12px !important;
-    }
-    
-    [data-testid="stChatInput"] textarea {
-        color: black !important;
-        -webkit-text-fill-color: white !important;
+    canvas {
+        display: none !important;
     }
 
     .stApp h1 {
         color: white !important;
         -webkit-text-fill-color: white !important;
-        text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000 !important;
+        text-shadow: 2px 2px 0 #000 !important;
     }
 
-    .stChatMessage p {
-        color: white !important;
-        text-shadow: 1px 1px 2px black !important;
-    }
-
-    header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
-        background: transparent !important;
-        background-color: rgba(0,0,0,0) !important;
-    }
+    [data-testid="stSidebar"] { background-color: white !important; }
+    [data-testid="stChatInput"] { background-color: white !important; }
     </style>
 
     <script>
-    function applyPulsarStyles() {
+    function quickStyle() {
         const doc = window.parent.document;
-        const h1s = doc.querySelectorAll('h1');
-        h1s.forEach(h => { 
-            h.style.color = 'white'; 
-            h.style.webkitTextFillColor = 'white';
-        });
-
         const menuBtn = doc.querySelector('button[data-testid="stHeaderSidebarNav"]');
         if (menuBtn) {
             menuBtn.style.backgroundColor = 'white';
             menuBtn.style.borderRadius = '50%';
-            menuBtn.style.border = '2px solid black';
-            menuBtn.style.boxShadow = '0 0 10px white';
-            const svg = menuBtn.querySelector('svg');
-            if (svg) { svg.style.fill = 'black'; }
         }
     }
-    setTimeout(applyPulsarStyles, 1000);
-    setTimeout(applyPulsarStyles, 3000);
+    window.addEventListener('load', quickStyle);
+    setTimeout(quickStyle, 1500);
     </script>
     """, unsafe_allow_html=True)
 
