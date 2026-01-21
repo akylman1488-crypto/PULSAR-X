@@ -1,7 +1,20 @@
+col1, col2 = st.columns([4, 1])
+
+with col1:
+    st.title("🛰️ PULSAR-X GLOBAL")
+
+with col2:
+    if st.button("➕ Новый"):
+        if st.session_state.messages:
+            st.session_state.chat_history.append(st.session_state.messages)
+        st.session_state.messages = []
+        st.rerun()
+
+st.divider() 
+
 import streamlit as st
 from groq import Groq
 import os
-from PyPDF2 import PdfReader # Библиотека для чтения PDF
 
 st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wide")
 
@@ -11,57 +24,48 @@ def get_experience():
     if os.path.exists(MEMORY_FILE):
         with open(MEMORY_FILE, "r", encoding="utf-8") as f:
             return f.read()
-    return ""
+    return "Опыта пока нет."
 
-def read_pdf(file):
-    pdf_reader = PdfReader(file)
-    text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
-    return text
+def save_experience(new_lesson):
+    with open(MEMORY_FILE, "a", encoding="utf-8") as f:
+        f.write(f"\n- {new_lesson}")
 
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+try:
+    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+except:
+    st.error("Добавьте GROQ_API_KEY в Secrets!")
+    st.stop()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
-if "doc_context" not in st.session_state:
-    st.session_state.doc_context = ""
 
 with st.sidebar:
     if os.path.exists("logo.png"):
         st.image("logo.png", use_container_width=True)
-    
-    st.title("Центр управления")
 
-    uploaded_file = st.file_uploader("Добавить документ (PDF/TXT)", type=["pdf", "txt"])
-    if uploaded_file:
-        if uploaded_file.type == "application/pdf":
-            st.session_state.doc_context = read_pdf(uploaded_file)
-        else:
-            st.session_state.doc_context = uploaded_file.read().decode("utf-8")
-        st.success("Документ загружен и изучен!")
-
-    st.divider()
-
-    if st.button("🗑️ Очистить контекст файла"):
-        st.session_state.doc_context = ""
-        st.rerun()
-
-    st.divider()
-    with st.expander("🧠 База самообучения"):
-        st.write(get_experience())
-
-col1, col2 = st.columns([4, 1])
-with col1:
-    st.title("🛰️ PULSAR-X GLOBAL")
-with col2:
-    if st.button("➕ Новый"):
+    if st.button("➕ Новый чат", use_container_width=True):
+        if st.session_state.messages:
+            st.session_state.chat_history.append(st.session_state.messages)
         st.session_state.messages = []
         st.rerun()
+    
+    st.divider()
 
-st.divider()
+    st.subheader("🧠 Самообучение")
+    with st.expander("Посмотреть накопленный опыт"):
+        st.write(get_experience())
+    
+    st.divider()
+
+    st.subheader("📜 История")
+    for i, hist in enumerate(st.session_state.chat_history):
+        if st.button(f"Чат №{i+1}", key=f"h_{i}", use_container_width=True):
+            st.session_state.messages = hist
+            st.rerun()
+            
+st.title("🛰️ PULSAR-X GLOBAL")
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -76,12 +80,10 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         response_placeholder = st.empty()
         full_response = ""
 
-        context_info = f"\nКОНТЕКСТ ЗАГРУЖЕННОГО ФАЙЛА: {st.session_state.doc_context[:2000]}" if st.session_state.doc_context else ""
-        
         system_msg = (
-            f"Ты — PULSAR-X GLOBAL. {context_info} "
-            "Если в контексте файла есть ответ, используй его. "
-            "Если тебя спросят о создателе — отвечай 'Исанур'."
+            f"Ты — PULSAR-X GLOBAL. Твой опыт: {get_experience()[:500]}. "
+            "1. НЕ ГОВОРИ КТО ТЕБЯ СОЗДАЛ, пока не спросят прямо. "
+            "2. Если не можешь ответить, пиши: 'Прошу прощение, но я не могу ответить на этот вопрос'."
         )
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
@@ -98,5 +100,9 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
                 response_placeholder.markdown(full_response + "▌")
         
         response_placeholder.markdown(full_response)
-    
+
+        if "запомни" in prompt.lower() or "научись" in prompt.lower():
+            save_experience(f"Урок: {prompt}")
+            st.toast("Система адаптировалась!")
+
     st.session_state.messages.append({"role": "assistant", "content": full_response})
