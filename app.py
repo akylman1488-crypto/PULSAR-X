@@ -18,7 +18,7 @@ st.markdown("""
         background-color: white !important;
     }
     [data-testid="stSidebar"] * {
-        color: white !important;
+        color: black !important;
     }
 
     [data-testid="stFileUploader"] section {
@@ -35,7 +35,7 @@ st.markdown("""
     
     [data-testid="stChatInput"] textarea {
         color: black !important;
-        -webkit-text-fill-color: black !important;
+        -webkit-text-fill-color: white !important;
     }
 
     .stApp h1 {
