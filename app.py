@@ -7,26 +7,6 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 
 st.markdown("""
     <style>
-
-    [data-testid="stSidebarCollapseStateChanged"] button, 
-    [data-testid="openSidebar"] svg,
-    .st-emotion-cache-6q9sum.edgvbvh3 {
-        background-color: white !important; 
-        color: black !important;          
-        border-radius: 50% !important;  
-        padding: 5px !important;
-        border: 2px solid black !important;
-    }
-
-    [data-testid="stSidebarCollapseStateChanged"] svg {
-        fill: black !important;
-        stroke: black !important;
-    }
-
-    [data-testid="stSidebar"] button[kind="header"] {
-        background-color: black !important;
-        color: white !important;
-    }
     [data-testid="stAppViewContainer"] {
         background-image: url("https://blogger.googleusercontent.com/img/a/AVvXsEiB-6BuccqoXpOjS2N7yboF1Nd4o_7B3kqo8i-vHtsTJi1TFKCm58DYBHTx6SDDDp4J5MnivHcITN_xFLyS9zOes3qf8OQVky63oXbPksqN4TycQ_Wn2sj-2AWCEK3gkrqEDeMo0c6FgT7W0d2d355GNx2PewlrdPa4h6nnVtnEZeMcaB0QA_Qa3kGPKfaV=s2160-rw");
         background-size: cover;
@@ -34,33 +14,10 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    .stApp h1, .stApp h1 span, .stApp h1 div, [data-testid="stHeader"] h1 {
-        color: white !important;
-        -webkit-text-fill-color: white !important;
-        text-fill-color: white !important;
-        text-shadow: 
-            -2px -2px 0 #000,  
-             2px -2px 0 #000,
-            -2px  2px 0 #000,
-             2px  2px 0 #000,
-             4px 4px 10px rgba(0,0,0,1) !important;
-        font-weight: 900 !important;
+    [data-testid="stSidebar"] {
+        background-color: white !important;
     }
-
-    .stChatMessage [data-testid="stMarkdownContainer"] p {
-        color: white !important;
-        text-shadow: 
-            -1px -1px 0 #000,  
-             1px -1px 0 #000,
-            -1px  1px 0 #000,
-             1px  1px 0 #000 !important;
-        font-size: 1.15rem !important;
-    }
-
-    [data-testid="stSidebar"] *, 
-    [data-testid="stSidebar"] p, 
-    [data-testid="stSidebar"] span,
-    [data-testid="stSidebar"] label {
+    [data-testid="stSidebar"] * {
         color: black !important;
     }
 
@@ -69,26 +26,51 @@ st.markdown("""
         color: black !important;
         border: 2px solid black !important;
         font-weight: bold !important;
-        border-radius: 10px !important;
     }
 
-    [data-testid="stSidebar"] {
-        background-color: white !important;
+    .stChatMessage p, .stMarkdown p {
+        color: white !important;
+        text-shadow: 1px 1px 1px #000, -1px -1px 1px #000 !important;
     }
 
     header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
         background: transparent !important;
+        background-color: rgba(0,0,0,0) !important;
     }
-
     [data-testid="stChatInput"] {
-        background-color: rgba(0, 0, 0, 0.5) !important;
+        background-color: rgba(0, 0, 0, 0.6) !important;
         border: 1px solid white !important;
     }
-    
-    [data-testid="stChatInput"] textarea {
-        color: black !important;
-    }
     </style>
+
+    <script>
+    function stylePulsar() {
+        var headers = window.parent.document.querySelectorAll('h1');
+        headers.forEach(function(h) {
+            h.style.color = 'white';
+            h.style.webkitTextFillColor = 'white';
+            h.style.textShadow = '2px 2px 4px #000, -1px -1px 0 #000';
+            h.style.fontWeight = '900';
+        });
+
+        var menuBtn = window.parent.document.querySelector('button[data-testid="stHeaderSidebarNav"]');
+        if (menuBtn) {
+            menuBtn.style.backgroundColor = 'white';
+            menuBtn.style.borderRadius = '50%';
+            menuBtn.style.border = '2px solid black';
+            menuBtn.style.padding = '5px';
+            
+            var svgIcon = menuBtn.querySelector('svg');
+            if (svgIcon) {
+                svgIcon.style.fill = 'black';
+                svgIcon.style.color = 'black';
+            }
+        }
+    }
+
+    setTimeout(stylePulsar, 500);
+    setTimeout(stylePulsar, 2000);
+    </script>
     """, unsafe_allow_html=True)
 
 MEMORY_FILE = "pulsar_experience.txt"
