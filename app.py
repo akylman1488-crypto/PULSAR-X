@@ -5,6 +5,27 @@ from PyPDF2 import PdfReader
 
 st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wide")
 
+st.markdown("""
+    <style>
+    .stApp {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: white;
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: rgba(15, 12, 41, 0.8);
+    }
+
+    .stMarkdown {
+        color: white;
+    }
+
+    .stChatInputContainer {
+        padding-bottom: 20px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 MEMORY_FILE = "pulsar_experience.txt"
 
 def get_experience():
