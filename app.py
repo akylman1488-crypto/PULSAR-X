@@ -8,20 +8,44 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-        color: white;
+        background-image: url("https://images.unsplash.com/photo-1464802686167-b939a67e06a1?q=80&w=2070&auto=format&fit=crop");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    header[data-testid="stHeader"] {
+        background-color: rgba(0, 0, 0, 0) !important;
+    }
+
+    [data-testid="stChatInput"] {
+        background-color: rgba(30, 30, 60, 0.8) !important; /* Полупрозрачный темный */
+        border: 1px solid #5d3fd3 !important; /* Фиолетовая рамка */
+        border-radius: 15px;
+    }
+
+    [data-testid="stBottom"] > div {
+        background-color: transparent !important;
     }
 
     [data-testid="stSidebar"] {
-        background-color: rgba(15, 12, 41, 0.8);
+        background-color: rgba(15, 12, 41, 0.85) !important;
+        backdrop-filter: blur(10px); /* Эффект размытого стекла */
     }
 
-    .stMarkdown {
-        color: white;
+    h1, h2, h3, p, span, .stMarkdown {
+        color: #e0e0ff !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
-    .stChatInputContainer {
-        padding-bottom: 20px;
+    textarea {
+        color: #ffffff !important;
+    }
+
+    .stChatMessage {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
     }
     </style>
     """, unsafe_allow_html=True)
