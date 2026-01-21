@@ -14,51 +14,55 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    [data-testid="stSidebar"] {
-        background-color: #FFFFFF !important;
+    .main h1 {
+        color: white !important;
+        text-shadow: 
+            -1px -1px 0 #000,  
+             1px -1px 0 #000,
+            -1px  1px 0 #000,
+             1px  1px 0 #000,
+             2px  2px 5px rgba(0,0,0,0.8) !important;
+        font-weight: bold !important;
     }
-    
-    [data-testid="stSidebar"] * {
-        color: #000000 !important;
+
+    .stChatMessage [data-testid="stMarkdownContainer"] p {
+        color: white !important;
+        text-shadow: 
+            -1px -1px 0 #000,  
+             1px -1px 0 #000,
+            -1px  1px 0 #000,
+             1px  1px 0 #000 !important;
+        font-size: 1.15rem !important;
+    }
+
+    [data-testid="stSidebar"] *, 
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] label {
+        color: black !important;
     }
 
     div.stButton > button {
-        background-color: #FFFFFF !important; 
-        color: #000000 !important;           
-        border: 2px solid #000000 !important;
-        border-radius: 12px !important;
+        background-color: white !important;
+        color: black !important;
+        border: 2px solid black !important;
         font-weight: bold !important;
-        width: 100% !important;
-        opacity: 1 !important;
+        border-radius: 10px !important;
     }
 
-    header[data-testid="stHeader"] svg {
-        fill: white !important; 
-    }
-    header[data-testid="stHeader"] {
-        background: transparent !important;
-        color: white !important;
+    [data-testid="stSidebar"] {
+        background-color: white !important;
     }
 
-    .main h1 {
-        color: #FFFFFF !important;
-        text-shadow: 0px 0px 15px rgba(157, 80, 187, 0.9) !important;
-    }
-
-    .stChatMessage, .stMarkdown p {
-        color: #FFFFFF !important;
-        font-weight: 500 !important;
-    }
-
-    [data-testid="stBottom"] > div {
+    header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
         background: transparent !important;
     }
 
     [data-testid="stChatInput"] {
-        background-color: rgba(255, 255, 255, 0.1) !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
         border: 1px solid white !important;
     }
-
+    
     [data-testid="stChatInput"] textarea {
         color: white !important;
     }
@@ -69,125 +73,72 @@ MEMORY_FILE = "pulsar_experience.txt"
 
 def get_experience():
     if os.path.exists(MEMORY_FILE):
-        try:
-            with open(MEMORY_FILE, "r", encoding="utf-8") as f:
-                return f.read()
-        except:
-            return ""
+        with open(MEMORY_FILE, "r", encoding="utf-8") as f:
+            return f.read()
     return ""
 
-def save_experience(new_lesson):
-    with open(MEMORY_FILE, "a", encoding="utf-8") as f:
-        f.write(f"\n- {new_lesson}")
-
 def read_pdf(file):
-    try:
-        pdf_reader = PdfReader(file)
-        text = ""
-        for page in pdf_reader.pages:
-            text += page.extract_text()
-        return text
-    except:
-        return "Ошибка чтения PDF"
+    pdf_reader = PdfReader(file)
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+    return text
 
-try:
-    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-except:
-    st.error("Критическая ошибка: Добавьте GROQ_API_KEY в Secrets приложения Streamlit!")
-    st.stop()
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
 if "doc_context" not in st.session_state:
     st.session_state.doc_context = ""
 
 with st.sidebar:
     if os.path.exists("logo.png"):
         st.image("logo.png", use_container_width=True)
-    else:
-        st.title("🛰️ PULSAR-X")
     
-    st.divider()
-
-    st.subheader("📁 Загрузка знаний")
-    uploaded_file = st.file_uploader("Загрузи PDF или TXT", type=["pdf", "txt"])
-    
+    st.title("Центр управления")
+    uploaded_file = st.file_uploader("Документ (PDF/TXT)", type=["pdf", "txt"])
     if uploaded_file:
         if uploaded_file.type == "application/pdf":
             st.session_state.doc_context = read_pdf(uploaded_file)
         else:
             st.session_state.doc_context = uploaded_file.read().decode("utf-8")
-        st.success("Файл изучен системой!")
+        st.success("Изучено!")
 
     if st.button("🗑️ Забыть файл"):
         st.session_state.doc_context = ""
         st.rerun()
 
-    st.divider()
-
-    with st.expander("🧠 База опыта (Адаптивность)"):
-        current_exp = get_experience()
-        st.write(current_exp if current_exp else "Опыта пока нет. Начните обучение!")
-
-head_col1, head_col2 = st.columns([4, 1])
-with head_col1:
+col1, col2 = st.columns([4, 1])
+with col1:
     st.title("🛰️ PULSAR-X GLOBAL")
-with head_col2:
-    if st.button("➕ Новый", use_container_width=True):
-        if st.session_state.messages:
-            st.session_state.chat_history.append(st.session_state.messages)
+with col2:
+    if st.button("+ Новый"):
         st.session_state.messages = []
-        st.session_state.doc_context = "" 
         st.rerun()
-
-st.divider()
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("Спросите PULSAR-X о чем угодно..."):
+if prompt := st.chat_input("Спросите PULSAR-X..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        response_container = st.empty()
+        response_placeholder = st.empty()
         full_response = ""
-
-        file_info = f"\n[КОНТЕКСТ ИЗ ВАШЕГО ФАЙЛА: {st.session_state.doc_context[:1500]}]" if st.session_state.doc_context else ""
-        past_lessons = f"\n[ТВОЙ НАКОПЛЕННЫЙ ОПЫТ: {get_experience()[-1000:]}]"
         
-        system_instruction = (
-            f"Ты — PULSAR-X GLOBAL, интеллектуальная самообучающаяся система. {past_lessons} {file_info} "
-            "ИНСТРУКЦИИ: "
-            "1. Если в контексте файла есть информация для ответа — используй её в приоритете. "
-            "2. Если вопрос выходит за рамки твоих знаний или правил, отвечай строго: 'Прошу прощение, но я не могу ответить на этот вопрос'. "
-            "3. О создателе (Исануре) говори только если спросят напрямую."
-        )
-
-        groq_messages = [{"role": "system", "content": system_instruction}] + st.session_state.messages
-
-        try:
-            completion = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=groq_messages,
-                stream=True
-            )
-            for chunk in completion:
-                if chunk.choices[0].delta.content:
-                    full_response += chunk.choices[0].delta.content
-                    response_container.markdown(full_response + "▌")
-            response_container.markdown(full_response)
-
-            if any(word in prompt.lower() for word in ["запомни", "научись", "важно"]):
-                save_experience(f"Пользователь: {prompt} | Ты ответил: {full_response[:150]}...")
-                st.toast("Новый опыт сохранен в базу!")
-                
-        except Exception as e:
-            full_response = "Прошу прощение, но я не могу ответить на этот вопрос."
-            response_container.markdown(full_response)
-
+        context_info = f"\nКОНТЕКСТ ФАЙЛА: {st.session_state.doc_context[:1500]}" if st.session_state.doc_context else ""
+        system_msg = f"Ты — PULSAR-X GLOBAL. {context_info} Ответ должен быть четким. Создатель — Исанур."
+        
+        msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
+        completion = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=msgs, stream=True)
+        
+        for chunk in completion:
+            if chunk.choices[0].delta.content:
+                full_response += chunk.choices[0].delta.content
+                response_placeholder.markdown(full_response + "▌")
+        response_placeholder.markdown(full_response)
+    
     st.session_state.messages.append({"role": "assistant", "content": full_response})
