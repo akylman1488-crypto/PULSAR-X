@@ -23,7 +23,7 @@ st.markdown("""
 
     [data-testid="stFileUploader"] section {
         background-color: #f8f9fa !important;
-        color: black !important;
+        color: white !important;
         border: 2px dashed #000 !important;
     }
     
