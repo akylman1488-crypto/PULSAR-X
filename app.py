@@ -8,56 +8,51 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
-        background-image: url("https://raw.githubusercontent.com/Isanur-code/pulsar-x/main/IMG_1246.jpg");
+        background-image: url("https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?q=80&w=2000&auto=format&fit=crop");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }
 
-    [data-testid="stHeader"], 
-    [data-testid="stAppViewBlockContainer"],
-    [data-testid="stCanvas"],
-    .main {
+    header, [data-testid="stHeader"], [data-testid="stBottom"] > div, .main {
         background: transparent !important;
-    }
-
-    header {
         background-color: rgba(0,0,0,0) !important;
     }
 
-    [data-testid="stBottom"] > div {
-        background: transparent !important;
+    .stChatMessage {
+        background-color: rgba(255, 255, 255, 0.07) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px !important;
+        margin-bottom: 10px;
     }
 
     .stChatInputContainer {
-        background-color: rgba(0, 0, 0, 0.2) !important;
-        border-radius: 15px;
+        background-color: transparent !important;
     }
-
+    
     [data-testid="stChatInput"] {
-        background-color: rgba(40, 40, 80, 0.6) !important;
-        border: 1px solid #764ba2 !important;
+        background-color: rgba(20, 20, 40, 0.8) !important;
+        border: 1px solid #9d50bb !important; /* Фиолетовое свечение */
         color: white !important;
     }
 
     [data-testid="stSidebar"] {
-        background-color: rgba(15, 15, 35, 0.7) !important;
-        backdrop-filter: blur(10px);
+        background-color: rgba(0, 0, 0, 0.7) !important;
+        backdrop-filter: blur(20px);
     }
 
     h1, h2, h3, p, span, .stMarkdown {
         color: white !important;
-        text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+        text-shadow: 0px 0px 10px rgba(157, 80, 187, 0.5); /* Неоновый эффект */
     }
 
-    .stButton>button {
-        background-color: rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    [data-testid="stAppViewBlockContainer"] {
+        padding-top: 2rem !important;
+        padding-bottom: 5rem !important;
     }
     </style>
     """, unsafe_allow_html=True)
-
 MEMORY_FILE = "pulsar_experience.txt"
 
 def get_experience():
