@@ -1,3 +1,16 @@
+col1, col2 = st.columns([4, 1])
+
+with col1:
+    st.title("🛰️ PULSAR-X GLOBAL")
+
+with col2:
+    if st.button("➕ Новый"):
+        if st.session_state.messages:
+            st.session_state.chat_history.append(st.session_state.messages)
+        st.session_state.messages = []
+        st.rerun()
+
+st.divider() # Линия для красоты
 import streamlit as st
 from groq import Groq
 import os
