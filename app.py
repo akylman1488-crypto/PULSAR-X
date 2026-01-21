@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.sidebar.image("logo.png", width=200) 
+st.sidebar.image("https://raw.githubusercontent.com/Isanur/pulsar-x/main/logo.png", width=200)
 
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
