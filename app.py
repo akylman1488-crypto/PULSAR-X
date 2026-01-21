@@ -16,19 +16,43 @@ def save_experience(new_lesson):
     with open(MEMORY_FILE, "a", encoding="utf-8") as f:
         f.write(f"\n- {new_lesson}")
 
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+try:
+    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+except:
+    st.error("Добавьте GROQ_API_KEY в Secrets!")
+    st.stop()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
 with st.sidebar:
+    # Логотип (IMG_1200.jpeg)
     if os.path.exists("logo.png"):
         st.image("logo.png", use_container_width=True)
-    st.title("PULSAR-X")
+
+    if st.button("➕ Новый чат", use_container_width=True):
+        if st.session_state.messages:
+            st.session_state.chat_history.append(st.session_state.messages)
+        st.session_state.messages = []
+        st.rerun()
+    
+    st.divider()
+
     st.subheader("🧠 Самообучение")
-    exp = get_experience()
-    st.caption("Накопленный опыт:")
-    st.text_area("", exp, height=150, disabled=True)
+    with st.expander("Посмотреть накопленный опыт"):
+        st.write(get_experience())
+    
+    st.divider()
+
+    st.subheader("📜 История")
+    for i, hist in enumerate(st.session_state.chat_history):
+        if st.button(f"Чат №{i+1}", key=f"h_{i}", use_container_width=True):
+            st.session_state.messages = hist
+            st.rerun()
+
+st.title("🛰️ PULSAR-X GLOBAL")
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -43,18 +67,17 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         response_placeholder = st.empty()
         full_response = ""
 
-        current_exp = get_experience()
-        system_instructions = (
-            f"Ты — PULSAR-X GLOBAL, самообучающаяся система. Твой накопленный опыт: {current_exp}. "
-            "Используй этот опыт, чтобы не повторять ошибок. Отвечай на языке пользователя. "
-            "Если тебя спросят о создателе — отвечай 'Исанур'. В других случаях не упоминай его."
+        system_msg = (
+            f"Ты — PULSAR-X GLOBAL. Твой опыт: {get_experience()[:500]}. "
+            "1. НЕ ГОВОРИ КТО ТЕБЯ СОЗДАЛ, пока не спросят прямо. "
+            "2. Если не можешь ответить, пиши: 'Прошу прощение, но я не могу ответить на этот вопрос'."
         )
         
-        messages = [{"role": "system", "content": system_instructions}, *st.session_state.messages]
+        msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
 
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages=messages,
+            messages=msgs,
             stream=True
         )
         
@@ -64,9 +87,9 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
                 response_placeholder.markdown(full_response + "▌")
         
         response_placeholder.markdown(full_response)
+        
+        if "запомни" in prompt.lower() or "научись" in prompt.lower():
+            save_experience(f"Урок: {prompt}")
+            st.toast("Система адаптировалась!")
 
-        if "запомни" in prompt.lower() or "ошибка" in prompt.lower():
-            save_experience(f"Пользователь сказал: {prompt}. Мой ответ был: {full_response}")
-            st.toast("Система адаптировалась: новый опыт сохранен!")
-    
     st.session_state.messages.append({"role": "assistant", "content": full_response})
