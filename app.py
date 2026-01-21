@@ -15,14 +15,15 @@ st.markdown("""
     }
 
     .main h1 {
-        color: white !important;
+        color: #FFFFFF !important;
         text-shadow: 
-            -1px -1px 0 #000,  
-             1px -1px 0 #000,
-            -1px  1px 0 #000,
-             1px  1px 0 #000,
-             2px  2px 5px rgba(0,0,0,0.8) !important;
-        font-weight: bold !important;
+            -2px -2px 0 #000,  
+             2px -2px 0 #000,
+            -2px  2px 0 #000,
+             2px  2px 0 #000,
+             3px  3px 10px rgba(0,0,0,1) !important; 
+        font-weight: 900 !important;
+        letter-spacing: 2px;
     }
 
     .stChatMessage [data-testid="stMarkdownContainer"] p {
