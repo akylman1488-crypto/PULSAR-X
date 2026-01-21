@@ -64,7 +64,7 @@ st.markdown("""
     }
     
     [data-testid="stChatInput"] textarea {
-        color: white !important;
+        color: black !important;
     }
     </style>
     """, unsafe_allow_html=True)
