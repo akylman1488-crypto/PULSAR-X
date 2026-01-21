@@ -8,44 +8,48 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 st.markdown("""
     <style>
     .stApp {
-        background-image: url("https://images.unsplash.com/photo-1464802686167-b939a67e06a1?q=80&w=2070&auto=format&fit=crop");
+        background-image: url("https://raw.githubusercontent.com/Isanur-code/pulsar-x/main/IMG_1246.jpg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }
 
     header[data-testid="stHeader"] {
-        background-color: rgba(0, 0, 0, 0) !important;
+        background: rgba(0,0,0,0) !important;
     }
 
-    [data-testid="stChatInput"] {
-        background-color: rgba(30, 30, 60, 0.8) !important; /* Полупрозрачный темный */
-        border: 1px solid #5d3fd3 !important; /* Фиолетовая рамка */
-        border-radius: 15px;
-    }
-
+    footer {display: none;}
+    
     [data-testid="stBottom"] > div {
         background-color: transparent !important;
     }
 
+    .stChatInputContainer {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-radius: 20px;
+        padding: 10px;
+    }
+    
+    [data-testid="stChatInput"] {
+        background-color: rgba(40, 40, 80, 0.7) !important;
+        border: 1px solid #764ba2 !important;
+        color: white !important;
+    }
+
     [data-testid="stSidebar"] {
-        background-color: rgba(15, 12, 41, 0.85) !important;
-        backdrop-filter: blur(10px); /* Эффект размытого стекла */
+        background-color: rgba(10, 10, 30, 0.8) !important;
+        backdrop-filter: blur(15px);
     }
 
-    h1, h2, h3, p, span, .stMarkdown {
-        color: #e0e0ff !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-
-    textarea {
+    h1, h2, h3, span, p, .stMarkdown {
         color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     }
 
     .stChatMessage {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 15px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
     </style>
     """, unsafe_allow_html=True)
