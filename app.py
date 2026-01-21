@@ -14,16 +14,16 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    .main h1 {
-        color: #FFFFFF !important;
+    .main h1, .main h1 span, .st-emotion-cache-10trblm, [data-testid="stHeader"] h1 {
+        color: white !important; 
+        -webkit-text-fill-color: white !important; 
         text-shadow: 
             -2px -2px 0 #000,  
              2px -2px 0 #000,
             -2px  2px 0 #000,
              2px  2px 0 #000,
-             3px  3px 10px rgba(0,0,0,1) !important; 
+             4px 4px 10px rgba(0,0,0,1) !important;
         font-weight: 900 !important;
-        letter-spacing: 2px;
     }
 
     .stChatMessage [data-testid="stMarkdownContainer"] p {
