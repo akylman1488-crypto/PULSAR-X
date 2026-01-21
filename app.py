@@ -7,6 +7,26 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 
 st.markdown("""
     <style>
+
+    [data-testid="stSidebarCollapseStateChanged"] button, 
+    [data-testid="openSidebar"] svg,
+    .st-emotion-cache-6q9sum.edgvbvh3 {
+        background-color: white !important; 
+        color: black !important;          
+        border-radius: 50% !important;  
+        padding: 5px !important;
+        border: 2px solid black !important;
+    }
+
+    [data-testid="stSidebarCollapseStateChanged"] svg {
+        fill: black !important;
+        stroke: black !important;
+    }
+
+    [data-testid="stSidebar"] button[kind="header"] {
+        background-color: black !important;
+        color: white !important;
+    }
     [data-testid="stAppViewContainer"] {
         background-image: url("https://blogger.googleusercontent.com/img/a/AVvXsEiB-6BuccqoXpOjS2N7yboF1Nd4o_7B3kqo8i-vHtsTJi1TFKCm58DYBHTx6SDDDp4J5MnivHcITN_xFLyS9zOes3qf8OQVky63oXbPksqN4TycQ_Wn2sj-2AWCEK3gkrqEDeMo0c6FgT7W0d2d355GNx2PewlrdPa4h6nnVtnEZeMcaB0QA_Qa3kGPKfaV=s2160-rw");
         background-size: cover;
