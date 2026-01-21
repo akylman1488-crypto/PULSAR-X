@@ -1,4 +1,11 @@
 import streamlit as st
+
+st.sidebar.image("logo.png", width=200) 
+
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    st.image("logo.png")
+import streamlit as st
 from groq import Groq
 import os
 from pypdf import PdfReader
