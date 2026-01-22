@@ -8,7 +8,7 @@ st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wi
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
-        background-image: url("https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?q=80&w=1200&auto=format&fit=crop");
+        background-image: url("https://blogger.googleusercontent.com/img/a/AVvXsEiB-6BuccqoXpOjS2N7yboF1Nd4o_7B3kqo8i-vHtsTJi1TFKCm58DYBHTx6SDDDp4J5MnivHcITN_xFLyS9zOes3qf8OQVky63oXbPksqN4TycQ_Wn2sj-2AWCEK3gkrqEDeMo0c6FgT7W0d2d355GNx2PewlrdPa4h6nnVtnEZeMcaB0QA_Qa3kGPKfaV=s2160-rw");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
