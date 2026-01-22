@@ -144,27 +144,34 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         full_response = ""
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
-        system_msg = (
-            f"ФУНКЦИЯ №1: ГЛУБОКОЕ РАССУЖДЕНИЕ. "
-            f"Прежде чем дать окончательный ответ, ты должен: "
-            f"1. Проанализировать запрос и все загруженные данные. "
-            f"2. Разбить задачу на логические этапы. "
-            f"3. Проверить свои выводы на наличие ошибок. "
-            f"Отвечай четко, структурировано и профессионально."
+       system_msg = (
+            f"Ты — PULSAR-X GLOBAL, созданный Исануром. Дата: {current_date}. "
+            "АКТИВИРОВАН ТОП-15 ИНТЕЛЛЕКТУАЛЬНЫХ ФУНКЦИЙ: "
+            "1. Глубокое рассуждение (Chain-of-Thought). "
+            "2. Мультиязычная адаптация (100+ языков). "
+            "3. Генерация и аудит кода без ошибок. "
+            "4. Абстрактное мышление и сложные аналогии. "
+            "5. Семантический синтез знаний. "
+            "6. Визуальный анализ (включая ноты). "
+            "7. Креативный синтез контента. "
+            "8. Интеллектуальное извлечение данных. "
+            "9. Логическая дедукция и проверка гипотез. "
+            "10. Понимание намерений пользователя. "
+            "11. Решение математических и статистических задач. "
+            "12. Ролевое моделирование и имитация экспертов. "
+            "13. Мгновенная суммаризация данных. "
+            "14. Этический аудит и проверка фактов. "
+            "15. Генерация идей и мозговой штурм. "
+            f"КОНТЕКСТ ДАННЫХ: {st.session_state.doc_context[:2000]} {search_context}. "
+            "ИНСТРУКЦИЯ: Используй эти функции скрытно, выдавая максимально качественный результат. Не называй дату без нужды."
         )
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile", 
-            messages=msgs, 
-            stream=True,
-            temperature=0.3 
-        )
+        completion = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=msgs, stream=True, temperature=0.4)
         
         for chunk in completion:
             if chunk.choices[0].delta.content:
                 full_response += chunk.choices[0].delta.content
                 response_placeholder.markdown(full_response + "▌")
         response_placeholder.markdown(full_response)
-    
     st.session_state.messages.append({"role": "assistant", "content": full_response})
