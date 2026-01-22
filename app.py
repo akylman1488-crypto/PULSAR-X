@@ -186,9 +186,9 @@ try:
             response_placeholder.markdown(full_response)
             st.session_state.messages.append({"role": "assistant", "content": full_response})
             
-except Exception as e:
-    error_msg = str(e).lower()
-    if "rate_limit" in error_msg:
-        st.error("🛑 Лимит запросов. Подождите 60 секунд.")
-    else:
-        st.error(f"Ошибка системы: {e}")
+        except Exception as e:
+            error_msg = str(e).lower()
+            if "rate_limit" in error_msg:
+                st.error("🛑 Лимит запросов. Подождите 60 секунд.")
+            else:
+                st.error(f"Ошибка системы: {e}")
