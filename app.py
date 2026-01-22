@@ -20,7 +20,6 @@ st.markdown("""
         text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000 !important;
     }
 
-    /* ПРИНУДИТЕЛЬНО БЕЛЫЙ ТЕКСТ ОТВЕТОВ И СООБЩЕНИЙ */
     [data-testid="stChatMessage"] div, 
     [data-testid="stChatMessage"] p, 
     .stMarkdown p, 
