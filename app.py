@@ -138,7 +138,7 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         full_response = ""
         
         context_info = f"\nКОНТЕКСТ ФАЙЛА: {st.session_state.doc_context[:1500]}" if st.session_state.doc_context else ""
-        system_msg = f"Ты — PULSAR-X GLOBAL. {context_info} Ответ должен быть четким. Создатель — Исанур."
+        system_msg = f"Ты — PULSAR-X GLOBAL Искусственный Интеллект созданный в АКЫЛМАНЕ. {context_info} Ответ должен быть четким. Создатель — Исанур."
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
         completion = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=msgs, stream=True)
