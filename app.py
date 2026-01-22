@@ -182,11 +182,13 @@ try:
                 if chunk.choices[0].delta.content:
                     full_response += chunk.choices[0].delta.content
                     response_placeholder.markdown(full_response + "▌")
+            
             response_placeholder.markdown(full_response)
             st.session_state.messages.append({"role": "assistant", "content": full_response})
             
         except Exception as e:
-            if "rate_limit" in str(e).lower():
-                st.error("🛑 Лимит запросов исчерпан. Подождите 60 секунд перед следующим вопросом.")
+            error_msg = str(e).lower()
+            if "rate_limit" in error_msg:
+                st.error("🛑 Лимит запросов. Подождите 60 секунд.")
             else:
-                st.error(f"Произошла ошибка: {e}")
+                st.error(f"Ошибка системы: {e}")
