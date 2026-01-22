@@ -138,15 +138,12 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         response_placeholder = st.empty()
         full_response = ""
         
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        context_info = f"\nКОНТЕКСТ ФАЙЛА: {st.session_state.doc_context[:1500]}" if st.session_state.doc_context else ""
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
         system_msg = (
-            f"Ты — PULSAR-X GLOBAL созданнай в школе АКЫЛМАН. Твой создатель — Исанур. Акылман находится в Кыргызстане. "
-            f"СЕГОДНЯШНЯЯ ДАТА И ВРЕМЯ: {current_time}. "
-            f"Школа АКЫЛМАН где учится твой создатель находится в Кыргызстане. " 
-            f"Ты всегда знаешь точное время, потому что оно передается тебе в реальном времени. {context_info}"
+            f"Ты — PULSAR-X GLOBAL, созданный Исануром. Ты создан в школы Акылман находящаяся в Кыргызстане. "
+            f"Сегодняшняя дата: {current_date}. "
+            f"ВАЖНО: Не называй дату в каждом сообщении. Упоминай её только если пользователь прямо спросит о текущем дне или дате."
         )
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
@@ -157,5 +154,7 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
                 full_response += chunk.choices[0].delta.content
                 response_placeholder.markdown(full_response + "▌")
         response_placeholder.markdown(full_response)
+    
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
     
     st.session_state.messages.append({"role": "assistant", "content": full_response})
