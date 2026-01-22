@@ -127,6 +127,8 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
+import datetime
+
 if prompt := st.chat_input("Спросите PULSAR-X..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
@@ -136,8 +138,15 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         response_placeholder = st.empty()
         full_response = ""
         
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
         context_info = f"\nКОНТЕКСТ ФАЙЛА: {st.session_state.doc_context[:1500]}" if st.session_state.doc_context else ""
-        system_msg = f"Ты — PULSAR-X GLOBAL Искусственный Интеллект созданный в школе АКЫЛМАН. {context_info} Ответ должен быть четким. Создатель — Исанур."
+        
+        system_msg = (
+            f"Ты — PULSAR-X GLOBAL. Твой создатель — Исанур. "
+            f"СЕГОДНЯШНЯЯ ДАТА И ВРЕМЯ: {current_time}. "
+            f"Ты всегда знаешь точное время, потому что оно передается тебе в реальном времени. {context_info}"
+        )
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
         completion = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=msgs, stream=True)
