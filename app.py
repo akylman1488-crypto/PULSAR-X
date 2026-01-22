@@ -14,31 +14,66 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    canvas {
-        display: none !important;
-    }
-
     .stApp h1 {
         color: white !important;
         -webkit-text-fill-color: white !important;
-        text-shadow: 2px 2px 0 #000 !important;
+        text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000 !important;
     }
 
-    [data-testid="stSidebar"] { background-color: white !important; }
-    [data-testid="stChatInput"] { background-color: white !important; }
+    /* ПРИНУДИТЕЛЬНО БЕЛЫЙ ТЕКСТ ОТВЕТОВ И СООБЩЕНИЙ */
+    [data-testid="stChatMessage"] div, 
+    [data-testid="stChatMessage"] p, 
+    .stMarkdown p, 
+    .stMarkdown span {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+        text-shadow: 1px 1px 3px black !important;
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: white !important;
+    }
+    [data-testid="stSidebar"] * {
+        color: black !important;
+        -webkit-text-fill-color: black !important;
+    }
+
+    [data-testid="stChatInput"] {
+        background-color: white !important;
+        border: 2px solid black !important;
+    }
+    [data-testid="stChatInput"] textarea {
+        color: black !important;
+        -webkit-text-fill-color: black !important;
+    }
+
+    header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
+        background: transparent !important;
+    }
     </style>
 
     <script>
-    function quickStyle() {
+    function forceWhiteText() {
         const doc = window.parent.document;
+        const messages = doc.querySelectorAll('[data-testid="stChatMessage"] p');
+        messages.forEach(msg => {
+            msg.style.color = 'white';
+            msg.style.webkitTextFillColor = 'white';
+        });
+        
+        const h1 = doc.querySelector('h1');
+        if (h1) {
+            h1.style.color = 'white';
+            h1.style.webkitTextFillColor = 'white';
+        }
+
         const menuBtn = doc.querySelector('button[data-testid="stHeaderSidebarNav"]');
         if (menuBtn) {
             menuBtn.style.backgroundColor = 'white';
             menuBtn.style.borderRadius = '50%';
         }
     }
-    window.addEventListener('load', quickStyle);
-    setTimeout(quickStyle, 1500);
+    setInterval(forceWhiteText, 1000);
     </script>
     """, unsafe_allow_html=True)
 
