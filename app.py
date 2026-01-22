@@ -168,3 +168,25 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         response_placeholder.markdown(full_response)
     
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+try:
+            msgs = [{"role": "system", "content": sys_msg}] + st.session_state.messages
+            completion = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=msgs,
+                stream=True,
+                temperature=0.4
+            )
+            
+            for chunk in completion:
+                if chunk.choices[0].delta.content:
+                    full_response += chunk.choices[0].delta.content
+                    response_placeholder.markdown(full_response + "▌")
+            response_placeholder.markdown(full_response)
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
+            
+        except Exception as e:
+            if "rate_limit" in str(e).lower():
+                st.error("🛑 Лимит запросов исчерпан. Подождите 60 секунд перед следующим вопросом.")
+            else:
+                st.error(f"Произошла ошибка: {e}")
