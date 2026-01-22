@@ -128,6 +128,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 import datetime
+from duckduckgo_search import DDGS
 
 if prompt := st.chat_input("Спросите PULSAR-X..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -140,10 +141,21 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         
+        search_context = ""
+        if any(word in prompt.lower() for word in ["новости", "найди", "что сейчас", "произошло"]):
+            with st.spinner("PULSAR-X ищет в сети..."):
+                try:
+                    results = DDGS().text(prompt, max_results=3)
+                    search_context = "\nНОВОСТИ ИЗ СЕТИ:\n" + "\n".join([r['body'] for r in results])
+                except:
+                    search_context = ""
+
         system_msg = (
-            f"Ты — PULSAR-X GLOBAL, созданный Исануром. Ты создан в школы Акылман находящаяся в Кыргызстане. "
+            f"Ты — PULSAR-X GLOBAL, созданный Исануром. Тебя создали в школе Акылман находящаяся в Кыргызстане. "
             f"Сегодняшняя дата: {current_date}. "
+            f"У тебя есть доступ к интернету. {search_context} "
             f"ВАЖНО: Не называй дату в каждом сообщении. Упоминай её только если пользователь прямо спросит о текущем дне или дате."
+            f"Используй новости только если тебя об этом просят. Не называй дату без необходимости."
         )
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
@@ -154,7 +166,5 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
                 full_response += chunk.choices[0].delta.content
                 response_placeholder.markdown(full_response + "▌")
         response_placeholder.markdown(full_response)
-    
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
     
     st.session_state.messages.append({"role": "assistant", "content": full_response})
