@@ -143,7 +143,7 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         context_info = f"\nКОНТЕКСТ ФАЙЛА: {st.session_state.doc_context[:1500]}" if st.session_state.doc_context else ""
         
         system_msg = (
-            f"Ты — PULSAR-X GLOBAL. Твой создатель — Исанур. "
+            f"Ты — PULSAR-X GLOBAL созданнай в школе АКЫЛМАН. Твой создатель — Исанур. "
             f"СЕГОДНЯШНЯЯ ДАТА И ВРЕМЯ: {current_time}. "
             f"Ты всегда знаешь точное время, потому что оно передается тебе в реальном времени. {context_info}"
         )
