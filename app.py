@@ -131,3 +131,40 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
                 response_placeholder.markdown(full_response + "▌")
         response_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+import datetime
+
+if prompt := st.chat_input("Спросите PULSAR-X..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        response_placeholder = st.empty()
+        full_response = ""
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        
+        system_msg = (
+            f"ФУНКЦИЯ №1: ГЛУБОКОЕ РАССУЖДЕНИЕ. "
+            f"Прежде чем дать окончательный ответ, ты должен: "
+            f"1. Проанализировать запрос и все загруженные данные. "
+            f"2. Разбить задачу на логические этапы. "
+            f"3. Проверить свои выводы на наличие ошибок. "
+            f"Отвечай четко, структурировано и профессионально."
+        )
+        
+        msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile", 
+            messages=msgs, 
+            stream=True,
+            temperature=0.3 
+        )
+        
+        for chunk in completion:
+            if chunk.choices[0].delta.content:
+                full_response += chunk.choices[0].delta.content
+                response_placeholder.markdown(full_response + "▌")
+        response_placeholder.markdown(full_response)
+    
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
