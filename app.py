@@ -28,7 +28,7 @@ st.markdown("""
     .stMarkdown span {
         color: white !important;
         -webkit-text-fill-color: white !important;
-        text-shadow: 1px 1px 3px black !important;
+        text-shadow: 1px 1px 3px white !important;
     }
 
     [data-testid="stSidebar"] {
