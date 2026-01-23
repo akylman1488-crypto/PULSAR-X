@@ -28,7 +28,7 @@ st.markdown("""
     .stMarkdown span {
         color: white !important;
         -webkit-text-fill-color: white !important;
-        text-shadow: 1px 1px 3px white !important;
+        text-shadow: 1px 1px 3px black !important;
     }
 
     [data-testid="stSidebar"] {
@@ -36,7 +36,7 @@ st.markdown("""
     }
     [data-testid="stSidebar"] * {
         color: black !important;
-        -webkit-text-fill-color: black !important;
+        -webkit-text-fill-color: white !important;
     }
 
     [data-testid="stChatInput"] {
