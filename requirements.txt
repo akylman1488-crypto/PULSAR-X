@@ -2,3 +2,4 @@ duckduckgo-search
 PyPDF2
 groq
 pandas
+google-generativeai
