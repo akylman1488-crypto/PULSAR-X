@@ -1,7 +1,9 @@
-
+import streamlit as st
 from groq import Groq
 import os
 from PyPDF2 import PdfReader
+import datetime
+from duckduckgo_search import DDGS
 
 st.set_page_config(page_title="PULSAR-X GLOBAL", page_icon="🛰️", layout="wide")
 
@@ -127,9 +129,6 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-import datetime
-from duckduckgo_search import DDGS
-
 if prompt := st.chat_input("Спросите PULSAR-X..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
@@ -147,8 +146,8 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
                 try:
                     results = DDGS().text(prompt, max_results=3)
                     search_context = "\nНОВОСТИ ИЗ СЕТИ:\n" + "\n".join([r['body'] for r in results])
-                except:
-                    search_context = ""
+                except Exception as e:
+                    search_context = f"Ошибка при поиске: {str(e)}"
 
         system_msg = (
             f"Ты — PULSAR-X GLOBAL, созданный Исануром. Тебя создали в школе Акылман находящаяся в Кыргызстане. "
@@ -159,12 +158,14 @@ if prompt := st.chat_input("Спросите PULSAR-X..."):
         )
         
         msgs = [{"role": "system", "content": system_msg}] + st.session_state.messages
-        completion = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=msgs, stream=True)
-        
-        for chunk in completion:
-            if chunk.choices[0].delta.content:
-                full_response += chunk.choices[0].delta.content
-                response_placeholder.markdown(full_response + "▌")
-        response_placeholder.markdown(full_response)
+        try:
+            completion = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=msgs, stream=True)
+            for chunk in completion:
+                if chunk.choices[0].delta.content:
+                    full_response += chunk.choices[0].delta.content
+                    response_placeholder.markdown(full_response + "▌")
+            response_placeholder.markdown(full_response)
+        except Exception as e:
+            response_placeholder.markdown(f"Ошибка при обработке запроса: {str(e)}")
     
     st.session_state.messages.append({"role": "assistant", "content": full_response})
