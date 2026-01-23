@@ -45,7 +45,7 @@ st.markdown("""
     }
     [data-testid="stChatInput"] textarea {
         color: black !important;
-        -webkit-text-fill-color: black !important;
+        -webkit-text-fill-color: white !important;
     }
 
     header, [data-testid="stHeader"], [data-testid="stBottom"] > div {
